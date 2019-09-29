@@ -1,0 +1,11 @@
+C:\Users\frena\source\repos\Movil\ModelsView\bin\Debug\netcoreapp2.2\ModelsView.deps.json
+C:\Users\frena\source\repos\Movil\ModelsView\bin\Debug\netcoreapp2.2\ModelsView.runtimeconfig.json
+C:\Users\frena\source\repos\Movil\ModelsView\bin\Debug\netcoreapp2.2\ModelsView.runtimeconfig.dev.json
+C:\Users\frena\source\repos\Movil\ModelsView\bin\Debug\netcoreapp2.2\ModelsView.dll
+C:\Users\frena\source\repos\Movil\ModelsView\bin\Debug\netcoreapp2.2\ModelsView.pdb
+C:\Users\frena\source\repos\Movil\ModelsView\obj\Debug\netcoreapp2.2\ModelsView.csprojAssemblyReference.cache
+C:\Users\frena\source\repos\Movil\ModelsView\obj\Debug\netcoreapp2.2\ModelsView.csproj.CoreCompileInputs.cache
+C:\Users\frena\source\repos\Movil\ModelsView\obj\Debug\netcoreapp2.2\ModelsView.AssemblyInfoInputs.cache
+C:\Users\frena\source\repos\Movil\ModelsView\obj\Debug\netcoreapp2.2\ModelsView.AssemblyInfo.cs
+C:\Users\frena\source\repos\Movil\ModelsView\obj\Debug\netcoreapp2.2\ModelsView.dll
+C:\Users\frena\source\repos\Movil\ModelsView\obj\Debug\netcoreapp2.2\ModelsView.pdb

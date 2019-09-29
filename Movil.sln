@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29306.81
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movil", "Movil\Movil.csproj", "{DB7A3602-A1CC-4F51-9E84-1C75E715C128}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelsView", "ModelsView\ModelsView.csproj", "{3D6EC4A4-339D-4707-8403-330F6FA1E288}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DB7A3602-A1CC-4F51-9E84-1C75E715C128}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB7A3602-A1CC-4F51-9E84-1C75E715C128}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB7A3602-A1CC-4F51-9E84-1C75E715C128}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB7A3602-A1CC-4F51-9E84-1C75E715C128}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D6EC4A4-339D-4707-8403-330F6FA1E288}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D6EC4A4-339D-4707-8403-330F6FA1E288}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D6EC4A4-339D-4707-8403-330F6FA1E288}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D6EC4A4-339D-4707-8403-330F6FA1E288}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {89C9BF87-F407-4EB2-8710-043446764330}
+	EndGlobalSection
+EndGlobal
