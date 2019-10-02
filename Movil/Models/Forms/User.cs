@@ -26,6 +26,9 @@ namespace Movil.Models
 
         [Required(ErrorMessage = "Este campo es obligatorio")]
         public string Role { get; set; }
+
+        [Required(ErrorMessage = "Este campo es obligatorio")]
+        public string PhoneNumber { get; set; }
     }
 
     public class LoginUser
@@ -35,5 +38,17 @@ namespace Movil.Models
 
         [Required(ErrorMessage = "Este campo es obligatorio")]
         public string Password { get; set; }
+    }
+
+    public class EditUser
+    {
+        [Required(ErrorMessage = "Este campo es obligatorio")]
+        public string FirstName { get; set; }
+
+        [Required(ErrorMessage = "Este campo es obligatorio")]
+        public string LastName { get; set; }
+
+        [Required(ErrorMessage = "Este campo es obligatorio")]
+        public string PhoneNumber { get; set; }
     }
 }

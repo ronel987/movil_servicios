@@ -13,6 +13,8 @@ namespace Movil.Models
 
         [PersonalData]
         public string LastName { get; set; }
+
+        public ICollection<Course> courses { get; set; }
     }
 
     public class AppUserRole : IdentityRole {

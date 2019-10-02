@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\frena\\source\\repos\\Movil\\Movil\\Movil.csproj": {}
+    "C:\\Users\\frena\\Documents\\GitHub\\movil_servicios\\Movil\\Movil.csproj": {}
   },
   "projects": {
-    "C:\\Users\\frena\\source\\repos\\Movil\\Movil\\Movil.csproj": {
+    "C:\\Users\\frena\\Documents\\GitHub\\movil_servicios\\Movil\\Movil.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\frena\\source\\repos\\Movil\\Movil\\Movil.csproj",
+        "projectUniqueName": "C:\\Users\\frena\\Documents\\GitHub\\movil_servicios\\Movil\\Movil.csproj",
         "projectName": "Movil",
-        "projectPath": "C:\\Users\\frena\\source\\repos\\Movil\\Movil\\Movil.csproj",
+        "projectPath": "C:\\Users\\frena\\Documents\\GitHub\\movil_servicios\\Movil\\Movil.csproj",
         "packagesPath": "C:\\Users\\frena\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\frena\\source\\repos\\Movil\\Movil\\obj\\",
+        "outputPath": "C:\\Users\\frena\\Documents\\GitHub\\movil_servicios\\Movil\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

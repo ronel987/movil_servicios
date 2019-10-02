@@ -16,8 +16,8 @@ using Movil.Models;
 namespace Movil.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
     [Authorize]
+    [ApiController]
     public class UserController : ControllerBase
     {
 
@@ -48,7 +48,8 @@ namespace Movil.Controllers
                         UserName = value.UserName,
                         Email = value.Email,
                         FirstName = value.FirstName,
-                        LastName = value.LastName
+                        LastName = value.LastName,
+                        PhoneNumber = value.PhoneNumber
                     };
 
                     var roleSearch = await roleManager.FindByNameAsync(value.Role);
@@ -68,11 +69,12 @@ namespace Movil.Controllers
                             return Ok(result.Errors);
                         }
                     }
-                    else {
+                    else
+                    {
                         return BadRequest("El rol no existe");
                     }
 
-                    
+
                 }
                 catch (Exception e)
                 {
@@ -97,22 +99,24 @@ namespace Movil.Controllers
 
                     if (result.Succeeded)
                     {
+                        var userFind = await _userManager.FindByEmailAsync(value.Email);
                         // Creamos los claims (pertenencias, características) del usuario
                         var info = new
                         {
-                            UserName = user.UserName,
-                            idRole = role.FirstOrDefault()
+                            idRole = role.FirstOrDefault(),
+                            email = value.Email.ToString()
                         };
                         var claims = new[]{
-                            new System.Security.Claims.Claim("UserData", Newtonsoft.Json.JsonConvert.SerializeObject(info))
+                            new Claim("emailUser", userFind.Email)
                         };
-                        var token = new System.IdentityModel.Tokens.Jwt.JwtSecurityToken
+                        var token = new JwtSecurityToken
                         (
+                            issuer: _configuration["ApiAuth:Issuer"],
+                            audience: _configuration["ApiAuth:Audience"],
                             claims: claims,
                             expires: DateTime.UtcNow.AddDays(60),
                             notBefore: DateTime.UtcNow,
-                            signingCredentials: new Microsoft.IdentityModel.Tokens.SigningCredentials(new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["ApiAuth:SecretKey"])),
-                            Microsoft.IdentityModel.Tokens.SecurityAlgorithms.HmacSha256)
+                            signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["ApiAuth:SecretKey"])), SecurityAlgorithms.HmacSha256)
                         );
 
                         return Ok(new
@@ -129,6 +133,50 @@ namespace Movil.Controllers
 
             return Ok();
 
+        }
+
+        [HttpGet, Route("[action]")]
+        public async Task<IActionResult> GetProfile()
+        {
+            try
+            {
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
+                var email = identity.FindFirst("emailUser").Value;
+                var query = await _userManager.FindByEmailAsync(email);
+                return Ok(new {
+                    FirstName = query.FirstName,
+                    LastName = query.LastName,
+                    Email = query.Email,
+                    PhoneNumber = query.PhoneNumber
+                });
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }
+        }
+
+        [HttpPut, Route("[action]")]
+        public async Task<IActionResult> UpdateProfile(EditUser value)
+        {
+            if (ModelState.IsValid) {
+                try
+                {
+                    var identity = HttpContext.User.Identity as ClaimsIdentity;
+                    var email = identity.FindFirst("emailUser").Value;
+                    var user = await _userManager.FindByEmailAsync(email);
+                    user.FirstName = value.FirstName;
+                    user.LastName = value.LastName;
+                    user.PhoneNumber = value.PhoneNumber;
+                    await _userManager.UpdateAsync(user);
+                    return Ok();
+                }
+                catch (Exception e)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, e);
+                }
+            }
+            return BadRequest();
         }
 
     }

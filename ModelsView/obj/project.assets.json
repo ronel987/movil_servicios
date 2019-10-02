@@ -692,11 +692,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\frena\\source\\repos\\Movil\\ModelsView\\ModelsView.csproj",
+      "projectUniqueName": "C:\\Users\\frena\\Documents\\GitHub\\movil_servicios\\ModelsView\\ModelsView.csproj",
       "projectName": "ModelsView",
-      "projectPath": "C:\\Users\\frena\\source\\repos\\Movil\\ModelsView\\ModelsView.csproj",
+      "projectPath": "C:\\Users\\frena\\Documents\\GitHub\\movil_servicios\\ModelsView\\ModelsView.csproj",
       "packagesPath": "C:\\Users\\frena\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\frena\\source\\repos\\Movil\\ModelsView\\obj\\",
+      "outputPath": "C:\\Users\\frena\\Documents\\GitHub\\movil_servicios\\ModelsView\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

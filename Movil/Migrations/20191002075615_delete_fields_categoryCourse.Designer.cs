@@ -10,8 +10,8 @@ using Movil.Models;
 namespace Movil.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20190929073603_FullName")]
-    partial class FullName
+    [Migration("20191002075615_delete_fields_categoryCourse")]
+    partial class delete_fields_categoryCourse
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -47,15 +47,15 @@ namespace Movil.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "a3e8412f-4948-4968-b2f4-8993c6da590d",
-                            ConcurrencyStamp = "043e29bc-f9a8-4dbc-b349-eb7347c26052",
+                            Id = "b3d1c1f3-413f-4808-bb6d-d65634fd044e",
+                            ConcurrencyStamp = "07b1311d-3dcd-4359-aba3-24bb69ae7f31",
                             Name = "Usuario",
                             NormalizedName = "Usuario"
                         },
                         new
                         {
-                            Id = "cf0b21a6-3478-4993-8e56-ca03d32cb4b9",
-                            ConcurrencyStamp = "f26614ec-1634-462a-b366-76659e66af7f",
+                            Id = "549cc7b5-51ae-4b7d-9a7c-35b823f8d91a",
+                            ConcurrencyStamp = "2e7512dd-0486-49cc-a02f-97533d95b21f",
                             Name = "Profesor",
                             NormalizedName = "Profesor"
                         });
@@ -202,6 +202,64 @@ namespace Movil.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("Movil.Models.Category", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<bool>("Status");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("Movil.Models.CategoryCourse", b =>
+                {
+                    b.Property<Guid>("IdCategory");
+
+                    b.Property<Guid>("IdCourse");
+
+                    b.Property<Guid?>("CategoryId");
+
+                    b.Property<Guid?>("CourseId");
+
+                    b.HasKey("IdCategory", "IdCourse");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("CategoryCourses");
+                });
+
+            modelBuilder.Entity("Movil.Models.Course", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description")
+                        .IsRequired();
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<double>("Point");
+
+                    b.Property<bool>("Status");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Courses");
+                });
+
             modelBuilder.Entity("Movil.Models.Owner", b =>
                 {
                     b.Property<Guid>("OwnerId")
@@ -265,6 +323,24 @@ namespace Movil.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Movil.Models.CategoryCourse", b =>
+                {
+                    b.HasOne("Movil.Models.Category", "Category")
+                        .WithMany("CategoryCourses")
+                        .HasForeignKey("CategoryId");
+
+                    b.HasOne("Movil.Models.Course", "Course")
+                        .WithMany("CategoryCourses")
+                        .HasForeignKey("CourseId");
+                });
+
+            modelBuilder.Entity("Movil.Models.Course", b =>
+                {
+                    b.HasOne("Movil.Models.AppUser", "User")
+                        .WithMany("courses")
+                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }
