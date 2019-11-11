@@ -25,6 +25,8 @@ namespace Movil.Models
 
         public AppUser User { get; set; }
 
-        public ICollection<CategoryCourse> CategoryCourses { get; set; } = new List<CategoryCourse>();
+        public Category Category { get; set; }
+
+        public ICollection<CourseContent> CourseContent { get; set; }
     }
 }

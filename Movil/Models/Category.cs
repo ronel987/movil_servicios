@@ -17,6 +17,6 @@ namespace Movil.Models
         [Required(ErrorMessage = "Este campo es obligatorio")]
         public bool Status { get; set; }
 
-        public ICollection<CategoryCourse> CategoryCourses { get; set; } = new List<CategoryCourse>();
+        public ICollection<Course> Courses { get; set; }
     }
 }
