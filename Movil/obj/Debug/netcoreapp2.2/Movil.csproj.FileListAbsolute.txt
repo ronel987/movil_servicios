@@ -17,6 +17,7 @@ C:\Users\frena\Documents\GitHub\movil_servicios\Movil\bin\Debug\netcoreapp2.2\Mo
 C:\Users\frena\Documents\GitHub\movil_servicios\Movil\bin\Debug\netcoreapp2.2\Movil.runtimeconfig.dev.json
 C:\Users\frena\Documents\GitHub\movil_servicios\Movil\bin\Debug\netcoreapp2.2\Movil.dll
 C:\Users\frena\Documents\GitHub\movil_servicios\Movil\bin\Debug\netcoreapp2.2\Movil.pdb
+C:\Users\frena\Documents\GitHub\movil_servicios\Movil\obj\Debug\netcoreapp2.2\Movil.csprojAssemblyReference.cache
 C:\Users\frena\Documents\GitHub\movil_servicios\Movil\obj\Debug\netcoreapp2.2\Movil.csproj.CoreCompileInputs.cache
 C:\Users\frena\Documents\GitHub\movil_servicios\Movil\obj\Debug\netcoreapp2.2\Movil.RazorAssemblyInfo.cache
 C:\Users\frena\Documents\GitHub\movil_servicios\Movil\obj\Debug\netcoreapp2.2\Movil.RazorAssemblyInfo.cs
@@ -25,4 +26,3 @@ C:\Users\frena\Documents\GitHub\movil_servicios\Movil\obj\Debug\netcoreapp2.2\Mo
 C:\Users\frena\Documents\GitHub\movil_servicios\Movil\obj\Debug\netcoreapp2.2\Movil.RazorTargetAssemblyInfo.cache
 C:\Users\frena\Documents\GitHub\movil_servicios\Movil\obj\Debug\netcoreapp2.2\Movil.dll
 C:\Users\frena\Documents\GitHub\movil_servicios\Movil\obj\Debug\netcoreapp2.2\Movil.pdb
-C:\Users\frena\Documents\GitHub\movil_servicios\Movil\obj\Debug\netcoreapp2.2\Movil.csprojAssemblyReference.cache

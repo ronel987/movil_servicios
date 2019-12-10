@@ -26,7 +26,10 @@ namespace Movil.Controllers
         {
             try
             {
-                return Ok(await _dbcontext.Categories.Where(x => x.Status == true).OrderBy(x => x.Name).ToListAsync());
+                return Ok(await _dbcontext.Categories.Where(x => x.Status == true).Select(x => new {
+                    code = x.Id,
+                    name = x.Name
+                }).OrderBy(x => x.name).ToListAsync());
             }
             catch (Exception e) {
                 return StatusCode(StatusCodes.Status500InternalServerError, e);

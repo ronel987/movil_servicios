@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Movil.Migrations
 {
-    public partial class delete_fields_categoryCourse : Migration
+    public partial class Tranjj : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -183,6 +183,37 @@ namespace Movil.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Orders",
+                columns: table => new
+                {
+                    StudentId = table.Column<string>(nullable: false),
+                    TeacherId = table.Column<string>(nullable: false),
+                    Id = table.Column<Guid>(nullable: false),
+                    StartDate = table.Column<DateTime>(nullable: false),
+                    EndDate = table.Column<DateTime>(nullable: false),
+                    CreateAt = table.Column<DateTime>(nullable: false),
+                    time = table.Column<int>(nullable: false),
+                    status = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => new { x.StudentId, x.TeacherId });
+                    table.UniqueConstraint("AK_Orders_Id", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Orders_AspNetUsers_StudentId",
+                        column: x => x.StudentId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Orders_AspNetUsers_TeacherId",
+                        column: x => x.TeacherId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Courses",
                 columns: table => new
                 {
@@ -191,11 +222,18 @@ namespace Movil.Migrations
                     Description = table.Column<string>(nullable: false),
                     Point = table.Column<double>(nullable: false),
                     Status = table.Column<bool>(nullable: false),
-                    UserId = table.Column<string>(nullable: true)
+                    UserId = table.Column<string>(nullable: true),
+                    CategoryId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Courses", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Courses_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Courses_AspNetUsers_UserId",
                         column: x => x.UserId,
@@ -205,40 +243,70 @@ namespace Movil.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CategoryCourses",
+                name: "CourseContents",
                 columns: table => new
                 {
-                    IdCategory = table.Column<Guid>(nullable: false),
-                    IdCourse = table.Column<Guid>(nullable: false),
-                    CategoryId = table.Column<Guid>(nullable: true),
+                    Id = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Duration = table.Column<int>(nullable: false),
+                    Status = table.Column<bool>(nullable: false),
                     CourseId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CategoryCourses", x => new { x.IdCategory, x.IdCourse });
+                    table.PrimaryKey("PK_CourseContents", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CategoryCourses_Categories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_CategoryCourses_Courses_CourseId",
+                        name: "FK_CourseContents_Courses_CourseId",
                         column: x => x.CourseId,
                         principalTable: "Courses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.InsertData(
-                table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "b3d1c1f3-413f-4808-bb6d-d65634fd044e", "07b1311d-3dcd-4359-aba3-24bb69ae7f31", "Usuario", "Usuario" });
+            migrationBuilder.CreateTable(
+                name: "CourseContentOrders",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    OrderStudentId = table.Column<string>(nullable: true),
+                    OrderTeacherId = table.Column<string>(nullable: true),
+                    CourseContentId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CourseContentOrders", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CourseContentOrders_CourseContents_CourseContentId",
+                        column: x => x.CourseContentId,
+                        principalTable: "CourseContents",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_CourseContentOrders_Orders_OrderStudentId_OrderTeacherId",
+                        columns: x => new { x.OrderStudentId, x.OrderTeacherId },
+                        principalTable: "Orders",
+                        principalColumns: new[] { "StudentId", "TeacherId" },
+                        onDelete: ReferentialAction.Restrict);
+                });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "549cc7b5-51ae-4b7d-9a7c-35b823f8d91a", "2e7512dd-0486-49cc-a02f-97533d95b21f", "Profesor", "Profesor" });
+                values: new object[,]
+                {
+                    { "94f90c56-51bb-49ff-9e92-101f1373651c", "979c17c9-50e3-45f5-9d21-b1457b6143a6", "Usuario", "Usuario" },
+                    { "8b855de2-1b2e-45fe-8da6-f2fdef0cbb52", "47cf4537-a613-40da-93ee-e0edbf5869b0", "Profesor", "Profesor" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "Id", "Name", "Status" },
+                values: new object[,]
+                {
+                    { new Guid("d33e3a72-4cbc-4048-9479-31e61a893feb"), "Matemáticas", true },
+                    { new Guid("b3947ab3-c896-41e4-9023-071b89223acf"), "Baile", true },
+                    { new Guid("a3ac1f3d-8a11-479c-94c9-a7bb7bb83855"), "Peluquería", true }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -280,19 +348,34 @@ namespace Movil.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CategoryCourses_CategoryId",
-                table: "CategoryCourses",
-                column: "CategoryId");
+                name: "IX_CourseContentOrders_CourseContentId",
+                table: "CourseContentOrders",
+                column: "CourseContentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CategoryCourses_CourseId",
-                table: "CategoryCourses",
+                name: "IX_CourseContentOrders_OrderStudentId_OrderTeacherId",
+                table: "CourseContentOrders",
+                columns: new[] { "OrderStudentId", "OrderTeacherId" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CourseContents_CourseId",
+                table: "CourseContents",
                 column: "CourseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Courses_CategoryId",
+                table: "Courses",
+                column: "CategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Courses_UserId",
                 table: "Courses",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_TeacherId",
+                table: "Orders",
+                column: "TeacherId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -313,7 +396,7 @@ namespace Movil.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "CategoryCourses");
+                name: "CourseContentOrders");
 
             migrationBuilder.DropTable(
                 name: "owner");
@@ -322,10 +405,16 @@ namespace Movil.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "CourseContents");
+
+            migrationBuilder.DropTable(
+                name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "Courses");
+
+            migrationBuilder.DropTable(
+                name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

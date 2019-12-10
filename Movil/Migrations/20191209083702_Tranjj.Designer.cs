@@ -10,8 +10,8 @@ using Movil.Models;
 namespace Movil.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20191010060450_changeRelation")]
-    partial class changeRelation
+    [Migration("20191209083702_Tranjj")]
+    partial class Tranjj
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -47,15 +47,15 @@ namespace Movil.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "7c6f9992-db2d-4ed4-8885-17453089f490",
-                            ConcurrencyStamp = "2da33f4e-3f3c-4102-add8-c07603204242",
+                            Id = "94f90c56-51bb-49ff-9e92-101f1373651c",
+                            ConcurrencyStamp = "979c17c9-50e3-45f5-9d21-b1457b6143a6",
                             Name = "Usuario",
                             NormalizedName = "Usuario"
                         },
                         new
                         {
-                            Id = "0971877a-1de5-4d4d-af2d-240a605cf24b",
-                            ConcurrencyStamp = "95f0ca96-7650-4bed-8e0a-f97208724f74",
+                            Id = "8b855de2-1b2e-45fe-8da6-f2fdef0cbb52",
+                            ConcurrencyStamp = "47cf4537-a613-40da-93ee-e0edbf5869b0",
                             Name = "Profesor",
                             NormalizedName = "Profesor"
                         });
@@ -215,6 +215,26 @@ namespace Movil.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("d33e3a72-4cbc-4048-9479-31e61a893feb"),
+                            Name = "Matemáticas",
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = new Guid("b3947ab3-c896-41e4-9023-071b89223acf"),
+                            Name = "Baile",
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = new Guid("a3ac1f3d-8a11-479c-94c9-a7bb7bb83855"),
+                            Name = "Peluquería",
+                            Status = true
+                        });
                 });
 
             modelBuilder.Entity("Movil.Models.Course", b =>
@@ -243,6 +263,73 @@ namespace Movil.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Courses");
+                });
+
+            modelBuilder.Entity("Movil.Models.CourseContent", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid?>("CourseId");
+
+                    b.Property<int>("Duration");
+
+                    b.Property<string>("Name");
+
+                    b.Property<bool>("Status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("CourseContents");
+                });
+
+            modelBuilder.Entity("Movil.Models.CourseContentOrder", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid?>("CourseContentId");
+
+                    b.Property<string>("OrderStudentId");
+
+                    b.Property<string>("OrderTeacherId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseContentId");
+
+                    b.HasIndex("OrderStudentId", "OrderTeacherId");
+
+                    b.ToTable("CourseContentOrders");
+                });
+
+            modelBuilder.Entity("Movil.Models.Order", b =>
+                {
+                    b.Property<string>("StudentId");
+
+                    b.Property<string>("TeacherId");
+
+                    b.Property<DateTime>("CreateAt");
+
+                    b.Property<DateTime>("EndDate");
+
+                    b.Property<Guid>("Id");
+
+                    b.Property<DateTime>("StartDate");
+
+                    b.Property<bool>("status");
+
+                    b.Property<int>("time");
+
+                    b.HasKey("StudentId", "TeacherId");
+
+                    b.HasAlternateKey("Id");
+
+                    b.HasIndex("TeacherId");
+
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("Movil.Models.Owner", b =>
@@ -319,6 +406,37 @@ namespace Movil.Migrations
                     b.HasOne("Movil.Models.AppUser", "User")
                         .WithMany("courses")
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("Movil.Models.CourseContent", b =>
+                {
+                    b.HasOne("Movil.Models.Course", "Course")
+                        .WithMany("CourseContent")
+                        .HasForeignKey("CourseId");
+                });
+
+            modelBuilder.Entity("Movil.Models.CourseContentOrder", b =>
+                {
+                    b.HasOne("Movil.Models.CourseContent", "CourseContent")
+                        .WithMany("CourseContentOrders")
+                        .HasForeignKey("CourseContentId");
+
+                    b.HasOne("Movil.Models.Order", "Order")
+                        .WithMany("CourseContentOrders")
+                        .HasForeignKey("OrderStudentId", "OrderTeacherId");
+                });
+
+            modelBuilder.Entity("Movil.Models.Order", b =>
+                {
+                    b.HasOne("Movil.Models.AppUser", "Student")
+                        .WithMany("Orders")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Movil.Models.AppUser", "Teacher")
+                        .WithMany("TeacherOrders")
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618
         }

@@ -45,15 +45,15 @@ namespace Movil.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "4551b63e-db95-48cf-8f36-582635b76f96",
-                            ConcurrencyStamp = "0f5fb135-e417-4c6a-98f1-b43cd0c546bd",
+                            Id = "94f90c56-51bb-49ff-9e92-101f1373651c",
+                            ConcurrencyStamp = "979c17c9-50e3-45f5-9d21-b1457b6143a6",
                             Name = "Usuario",
                             NormalizedName = "Usuario"
                         },
                         new
                         {
-                            Id = "26c59de1-fe00-4e96-94f3-afd23b9ccd25",
-                            ConcurrencyStamp = "acd4a51d-72b2-4357-9220-c46bcd8dc163",
+                            Id = "8b855de2-1b2e-45fe-8da6-f2fdef0cbb52",
+                            ConcurrencyStamp = "47cf4537-a613-40da-93ee-e0edbf5869b0",
                             Name = "Profesor",
                             NormalizedName = "Profesor"
                         });
@@ -217,19 +217,19 @@ namespace Movil.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("4d0176c0-b51e-4bb7-8c2a-a63bd6715ec7"),
+                            Id = new Guid("d33e3a72-4cbc-4048-9479-31e61a893feb"),
                             Name = "Matemáticas",
                             Status = true
                         },
                         new
                         {
-                            Id = new Guid("3b7fec5a-c1c0-4888-ae1b-3d250a59e1e0"),
+                            Id = new Guid("b3947ab3-c896-41e4-9023-071b89223acf"),
                             Name = "Baile",
                             Status = true
                         },
                         new
                         {
-                            Id = new Guid("570d6e81-7f38-4ffb-a6cb-3cc6a8f9c4dd"),
+                            Id = new Guid("a3ac1f3d-8a11-479c-94c9-a7bb7bb83855"),
                             Name = "Peluquería",
                             Status = true
                         });
@@ -274,11 +274,60 @@ namespace Movil.Migrations
 
                     b.Property<string>("Name");
 
+                    b.Property<bool>("Status");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("CourseContent");
+                    b.ToTable("CourseContents");
+                });
+
+            modelBuilder.Entity("Movil.Models.CourseContentOrder", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid?>("CourseContentId");
+
+                    b.Property<string>("OrderStudentId");
+
+                    b.Property<string>("OrderTeacherId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseContentId");
+
+                    b.HasIndex("OrderStudentId", "OrderTeacherId");
+
+                    b.ToTable("CourseContentOrders");
+                });
+
+            modelBuilder.Entity("Movil.Models.Order", b =>
+                {
+                    b.Property<string>("StudentId");
+
+                    b.Property<string>("TeacherId");
+
+                    b.Property<DateTime>("CreateAt");
+
+                    b.Property<DateTime>("EndDate");
+
+                    b.Property<Guid>("Id");
+
+                    b.Property<DateTime>("StartDate");
+
+                    b.Property<bool>("status");
+
+                    b.Property<int>("time");
+
+                    b.HasKey("StudentId", "TeacherId");
+
+                    b.HasAlternateKey("Id");
+
+                    b.HasIndex("TeacherId");
+
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("Movil.Models.Owner", b =>
@@ -362,6 +411,30 @@ namespace Movil.Migrations
                     b.HasOne("Movil.Models.Course", "Course")
                         .WithMany("CourseContent")
                         .HasForeignKey("CourseId");
+                });
+
+            modelBuilder.Entity("Movil.Models.CourseContentOrder", b =>
+                {
+                    b.HasOne("Movil.Models.CourseContent", "CourseContent")
+                        .WithMany("CourseContentOrders")
+                        .HasForeignKey("CourseContentId");
+
+                    b.HasOne("Movil.Models.Order", "Order")
+                        .WithMany("CourseContentOrders")
+                        .HasForeignKey("OrderStudentId", "OrderTeacherId");
+                });
+
+            modelBuilder.Entity("Movil.Models.Order", b =>
+                {
+                    b.HasOne("Movil.Models.AppUser", "Student")
+                        .WithMany("Orders")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Movil.Models.AppUser", "Teacher")
+                        .WithMany("TeacherOrders")
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618
         }

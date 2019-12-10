@@ -15,6 +15,10 @@ namespace Movil.Models
         public string LastName { get; set; }
 
         public ICollection<Course> courses { get; set; }
+
+        public virtual ICollection<Order> Orders { get; set; }
+        
+        public virtual ICollection<Order> TeacherOrders { get; set; }
     }
 
     public class AppUserRole : IdentityRole {
