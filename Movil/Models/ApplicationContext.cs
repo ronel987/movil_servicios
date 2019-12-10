@@ -29,8 +29,8 @@ namespace Movil.Models
             modelBuilder.Entity<Category>().HasData(new Category { Id = Guid.NewGuid(), Name = "Baile", Status = true });
             modelBuilder.Entity<Category>().HasData(new Category { Id = Guid.NewGuid(), Name = "Peluquería", Status = true });
 
-            modelBuilder.Entity<Order>()
-                    .HasKey(f => new { f.StudentId, f.TeacherId });
+            //modelBuilder.Entity<Order>()
+            //        .HasKey(f => new { f.StudentId, f.TeacherId });
 
             modelBuilder.Entity<Order>()
                     .HasOne(m => m.Student)

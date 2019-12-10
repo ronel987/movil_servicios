@@ -20,7 +20,7 @@ namespace Movil.Models
 
         public int time { get; set; }
 
-        public bool status { get; set; }
+        public string status { get; set; }
 
         public ICollection<CourseContentOrder> CourseContentOrders { get; set; }
 

@@ -160,6 +160,8 @@ namespace Movil.Controllers
                     name = x.Name,
                     status = x.Status,
                     duration = x.Duration,
+                    description = x.Description,
+                    cost = x.Cost,
                     id_course = x.Course.Id
                 }).ToListAsync();
 
@@ -181,6 +183,8 @@ namespace Movil.Controllers
                 CourseContent row = new CourseContent() {
                     Id = Guid.NewGuid(),
                     Name = value.Name,
+                    Description = value.Description,
+                    Cost = value.Cost,
                     Duration = value.Duration,
                     Status = true,
                     Course = query
@@ -233,7 +237,9 @@ namespace Movil.Controllers
                     themeList = x.CourseContent.Where(y => y.Status == true).Select(y => new {
                         code = y.Id,
                         name = y.Name,
-                        duration = y.Duration
+                        duration = y.Duration,
+                        description = y.Description,
+                        cost = y.Cost
                     }).OrderBy(y => y.name).ToList()
                 }).FirstOrDefaultAsync();
 

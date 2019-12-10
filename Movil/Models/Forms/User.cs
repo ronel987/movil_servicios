@@ -51,4 +51,10 @@ namespace Movil.Models
         [Required(ErrorMessage = "Este campo es obligatorio")]
         public string PhoneNumber { get; set; }
     }
+
+    public class EditAddress
+    {
+        [Required(ErrorMessage = "Este campo es obligatorio")]
+        public string Address { get; set; }
+    }
 }

@@ -31,6 +31,10 @@ namespace Movil.Models.Forms
 
         public int Duration { get; set; }
 
+        public string Description { get; set; }
+
+        public int Cost { get; set; }
+
         public bool Status { get; set; }
 
         public Guid Id_Course { get; set; }

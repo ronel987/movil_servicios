@@ -10,8 +10,8 @@ using Movil.Models;
 namespace Movil.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20191209083702_Tranjj")]
-    partial class Tranjj
+    [Migration("20191210093425_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -47,15 +47,15 @@ namespace Movil.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "94f90c56-51bb-49ff-9e92-101f1373651c",
-                            ConcurrencyStamp = "979c17c9-50e3-45f5-9d21-b1457b6143a6",
+                            Id = "1baa10c2-1d15-4f27-a8f7-75a14e93c8a8",
+                            ConcurrencyStamp = "a4143332-a251-494d-b185-9a05e6d5f750",
                             Name = "Usuario",
                             NormalizedName = "Usuario"
                         },
                         new
                         {
-                            Id = "8b855de2-1b2e-45fe-8da6-f2fdef0cbb52",
-                            ConcurrencyStamp = "47cf4537-a613-40da-93ee-e0edbf5869b0",
+                            Id = "3c730730-0912-4922-aaee-9fc823a638ee",
+                            ConcurrencyStamp = "add65f9c-c972-417f-a11f-c92f0c4d1f6d",
                             Name = "Profesor",
                             NormalizedName = "Profesor"
                         });
@@ -154,6 +154,8 @@ namespace Movil.Migrations
 
                     b.Property<int>("AccessFailedCount");
 
+                    b.Property<string>("Address");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
@@ -219,19 +221,19 @@ namespace Movil.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("d33e3a72-4cbc-4048-9479-31e61a893feb"),
+                            Id = new Guid("d985fed2-2ba0-443d-b8dc-1b5373d23b61"),
                             Name = "Matemáticas",
                             Status = true
                         },
                         new
                         {
-                            Id = new Guid("b3947ab3-c896-41e4-9023-071b89223acf"),
+                            Id = new Guid("9a2bf3a9-30f6-4fd3-8d7c-f858f1bb0885"),
                             Name = "Baile",
                             Status = true
                         },
                         new
                         {
-                            Id = new Guid("a3ac1f3d-8a11-479c-94c9-a7bb7bb83855"),
+                            Id = new Guid("f4f9d457-fd91-4d16-ba51-120115c50c09"),
                             Name = "Peluquería",
                             Status = true
                         });
@@ -270,7 +272,11 @@ namespace Movil.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("Cost");
+
                     b.Property<Guid?>("CourseId");
+
+                    b.Property<string>("Description");
 
                     b.Property<int>("Duration");
 
@@ -292,40 +298,39 @@ namespace Movil.Migrations
 
                     b.Property<Guid?>("CourseContentId");
 
-                    b.Property<string>("OrderStudentId");
-
-                    b.Property<string>("OrderTeacherId");
+                    b.Property<Guid?>("OrderId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CourseContentId");
 
-                    b.HasIndex("OrderStudentId", "OrderTeacherId");
+                    b.HasIndex("OrderId");
 
                     b.ToTable("CourseContentOrders");
                 });
 
             modelBuilder.Entity("Movil.Models.Order", b =>
                 {
-                    b.Property<string>("StudentId");
-
-                    b.Property<string>("TeacherId");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("CreateAt");
 
                     b.Property<DateTime>("EndDate");
 
-                    b.Property<Guid>("Id");
-
                     b.Property<DateTime>("StartDate");
 
-                    b.Property<bool>("status");
+                    b.Property<string>("StudentId");
+
+                    b.Property<string>("TeacherId");
+
+                    b.Property<string>("status");
 
                     b.Property<int>("time");
 
-                    b.HasKey("StudentId", "TeacherId");
+                    b.HasKey("Id");
 
-                    b.HasAlternateKey("Id");
+                    b.HasIndex("StudentId");
 
                     b.HasIndex("TeacherId");
 
@@ -423,7 +428,7 @@ namespace Movil.Migrations
 
                     b.HasOne("Movil.Models.Order", "Order")
                         .WithMany("CourseContentOrders")
-                        .HasForeignKey("OrderStudentId", "OrderTeacherId");
+                        .HasForeignKey("OrderId");
                 });
 
             modelBuilder.Entity("Movil.Models.Order", b =>

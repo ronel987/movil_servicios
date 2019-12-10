@@ -61,7 +61,7 @@ namespace Movil.Controllers
                         if (result.Succeeded)
                         {
                             var currentUser = await _userManager.FindByEmailAsync(value.Email);
-                            await _userManager.AddToRoleAsync(currentUser, "Usuario");
+                            await _userManager.AddToRoleAsync(currentUser, value.Role);
                             return Ok();
                         }
                         else
@@ -143,11 +143,13 @@ namespace Movil.Controllers
                 var identity = HttpContext.User.Identity as ClaimsIdentity;
                 var email = identity.FindFirst("emailUser").Value;
                 var query = await _userManager.FindByEmailAsync(email);
+                var rol = await _userManager.GetRolesAsync(query);
                 return Ok(new {
                     FirstName = query.FirstName,
                     LastName = query.LastName,
                     Email = query.Email,
-                    PhoneNumber = query.PhoneNumber
+                    PhoneNumber = query.PhoneNumber,
+                    isTeacher = rol.FirstOrDefault() == "Profesor" ? true : false
                 });
             }
             catch (Exception e)
@@ -157,7 +159,7 @@ namespace Movil.Controllers
         }
 
         [HttpPut, Route("[action]")]
-        public async Task<IActionResult> UpdateProfile(EditUser value)
+        public async Task<IActionResult> UpdateProfile(EditAddress value)
         {
             if (ModelState.IsValid) {
                 try
@@ -165,9 +167,7 @@ namespace Movil.Controllers
                     var identity = HttpContext.User.Identity as ClaimsIdentity;
                     var email = identity.FindFirst("emailUser").Value;
                     var user = await _userManager.FindByEmailAsync(email);
-                    user.FirstName = value.FirstName;
-                    user.LastName = value.LastName;
-                    user.PhoneNumber = value.PhoneNumber;
+                    user.Address = value.Address;
                     await _userManager.UpdateAsync(user);
                     return Ok();
                 }
@@ -177,6 +177,68 @@ namespace Movil.Controllers
                 }
             }
             return BadRequest();
+        }
+
+        [HttpGet, Route("[action]")]
+        public async Task<IActionResult> GetAddress()
+        {
+            try {
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
+                var email = identity.FindFirst("emailUser").Value;
+                var query = await _userManager.FindByEmailAsync(email);
+
+                return Ok(new {
+                    address = query.Address
+                });
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }
+        }
+
+        [HttpGet, Route("[action]")]
+        public async Task<IActionResult> CourseEnrolled()
+        {
+            try
+            {
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
+                var email = identity.FindFirst("emailUser").Value;
+                var query = await _userManager.FindByEmailAsync(email);
+
+                var xx = query.Orders.Select(x => new
+                {
+                    name = x.CourseContentOrders.FirstOrDefault().CourseContent.Course.Name,
+                    date = x.StartDate.ToString("yyyy/MM/dd HH:mm"),
+                    list = x.CourseContentOrders.ToList().Select(y => y.CourseContent.Name)
+                }).ToList();
+
+                return Ok(xx);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }
+        }
+
+        [HttpPut, Route("[action]")]
+        public async Task<IActionResult> PutEditAddress()
+        {
+            try
+            {
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
+                var email = identity.FindFirst("emailUser").Value;
+                var query = await _userManager.FindByEmailAsync(email);
+
+                return Ok(new
+                {
+                    address = query.Address
+                });
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }
         }
 
     }

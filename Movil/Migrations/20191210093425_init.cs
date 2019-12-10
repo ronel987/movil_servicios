@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Movil.Migrations
 {
-    public partial class Tranjj : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -42,7 +42,8 @@ namespace Movil.Migrations
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true)
+                    LastName = table.Column<string>(nullable: true),
+                    Address = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -186,19 +187,18 @@ namespace Movil.Migrations
                 name: "Orders",
                 columns: table => new
                 {
-                    StudentId = table.Column<string>(nullable: false),
-                    TeacherId = table.Column<string>(nullable: false),
                     Id = table.Column<Guid>(nullable: false),
                     StartDate = table.Column<DateTime>(nullable: false),
                     EndDate = table.Column<DateTime>(nullable: false),
                     CreateAt = table.Column<DateTime>(nullable: false),
                     time = table.Column<int>(nullable: false),
-                    status = table.Column<bool>(nullable: false)
+                    status = table.Column<string>(nullable: true),
+                    StudentId = table.Column<string>(nullable: true),
+                    TeacherId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Orders", x => new { x.StudentId, x.TeacherId });
-                    table.UniqueConstraint("AK_Orders_Id", x => x.Id);
+                    table.PrimaryKey("PK_Orders", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Orders_AspNetUsers_StudentId",
                         column: x => x.StudentId,
@@ -249,6 +249,8 @@ namespace Movil.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     Duration = table.Column<int>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
+                    Cost = table.Column<int>(nullable: false),
                     Status = table.Column<bool>(nullable: false),
                     CourseId = table.Column<Guid>(nullable: true)
                 },
@@ -268,8 +270,7 @@ namespace Movil.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    OrderStudentId = table.Column<string>(nullable: true),
-                    OrderTeacherId = table.Column<string>(nullable: true),
+                    OrderId = table.Column<Guid>(nullable: true),
                     CourseContentId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
@@ -282,10 +283,10 @@ namespace Movil.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_CourseContentOrders_Orders_OrderStudentId_OrderTeacherId",
-                        columns: x => new { x.OrderStudentId, x.OrderTeacherId },
+                        name: "FK_CourseContentOrders_Orders_OrderId",
+                        column: x => x.OrderId,
                         principalTable: "Orders",
-                        principalColumns: new[] { "StudentId", "TeacherId" },
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -294,8 +295,8 @@ namespace Movil.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "94f90c56-51bb-49ff-9e92-101f1373651c", "979c17c9-50e3-45f5-9d21-b1457b6143a6", "Usuario", "Usuario" },
-                    { "8b855de2-1b2e-45fe-8da6-f2fdef0cbb52", "47cf4537-a613-40da-93ee-e0edbf5869b0", "Profesor", "Profesor" }
+                    { "1baa10c2-1d15-4f27-a8f7-75a14e93c8a8", "a4143332-a251-494d-b185-9a05e6d5f750", "Usuario", "Usuario" },
+                    { "3c730730-0912-4922-aaee-9fc823a638ee", "add65f9c-c972-417f-a11f-c92f0c4d1f6d", "Profesor", "Profesor" }
                 });
 
             migrationBuilder.InsertData(
@@ -303,9 +304,9 @@ namespace Movil.Migrations
                 columns: new[] { "Id", "Name", "Status" },
                 values: new object[,]
                 {
-                    { new Guid("d33e3a72-4cbc-4048-9479-31e61a893feb"), "Matemáticas", true },
-                    { new Guid("b3947ab3-c896-41e4-9023-071b89223acf"), "Baile", true },
-                    { new Guid("a3ac1f3d-8a11-479c-94c9-a7bb7bb83855"), "Peluquería", true }
+                    { new Guid("d985fed2-2ba0-443d-b8dc-1b5373d23b61"), "Matemáticas", true },
+                    { new Guid("9a2bf3a9-30f6-4fd3-8d7c-f858f1bb0885"), "Baile", true },
+                    { new Guid("f4f9d457-fd91-4d16-ba51-120115c50c09"), "Peluquería", true }
                 });
 
             migrationBuilder.CreateIndex(
@@ -353,9 +354,9 @@ namespace Movil.Migrations
                 column: "CourseContentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CourseContentOrders_OrderStudentId_OrderTeacherId",
+                name: "IX_CourseContentOrders_OrderId",
                 table: "CourseContentOrders",
-                columns: new[] { "OrderStudentId", "OrderTeacherId" });
+                column: "OrderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CourseContents_CourseId",
@@ -371,6 +372,11 @@ namespace Movil.Migrations
                 name: "IX_Courses_UserId",
                 table: "Courses",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_StudentId",
+                table: "Orders",
+                column: "StudentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_TeacherId",

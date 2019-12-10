@@ -11,8 +11,8 @@ namespace Movil.Models
         [Key]
         public Guid Id { get; set; }
 
-        public Order Order { get; set; }
+        public virtual Order Order { get; set; }
 
-        public CourseContent CourseContent { get; set; }
+        public virtual CourseContent CourseContent { get; set; }
     }
 }

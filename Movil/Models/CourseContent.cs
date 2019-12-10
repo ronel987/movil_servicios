@@ -15,6 +15,10 @@ namespace Movil.Models
 
         public int Duration { get; set; }
 
+        public string Description { get; set; }
+        
+        public int Cost { get; set; }
+
         public bool Status { get; set; }
 
         public Course Course { get; set; }
